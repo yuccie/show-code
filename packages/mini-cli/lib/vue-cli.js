@@ -27,9 +27,22 @@ export default function handleVueTemplate() {
         .prompt(vueQuestions)
         .then((answsers) => {
             console.log('djch answsers', answsers)
-            simpleGet('./', () => {
-                console.log('ddd')
-            })
+            const remote = 'https://github.com/bencodezen/vue-enterprise-boilerplate.git';
+            // console.log('djch ', Object.keys(simpleGet), simpleGet.get.toString())
+            // https://github.com/bencodezen/vue-enterprise-boilerplate.git
+            simpleGet.get(remote, function (err, res) {
+                if (err) {
+                    console.error(err)
+                    throw err
+                }
+                // console.log('ddd', res) // 200
+                // res.pipe(process.stdout) // `res` is a stream
+              })
+              
+
+            // simpleGet('./', () => {
+            //     console.log('ddd')
+            // })
         })
         .catch((err) => console.log('djch err', err))
 }
