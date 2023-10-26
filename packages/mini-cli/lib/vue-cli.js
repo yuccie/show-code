@@ -1,6 +1,9 @@
 import inquirer from 'inquirer'
 // import simpleGet from 'simple-get'
 import { simpleGit } from 'simple-git';
+import createLogger from 'progress-estimator'
+import path from 'path'
+import { isDirectoryEmpty, isFolderExists } from '../utils/index.js'
 
 export default function handleVueTemplate() {
     const vueQuestions = [
@@ -23,6 +26,7 @@ export default function handleVueTemplate() {
             message: '选择安装工具',
         },
     ]
+    const cwd = process.cwd()
 
     inquirer
         .prompt(vueQuestions)
@@ -40,25 +44,55 @@ export default function handleVueTemplate() {
             //     // res.pipe(process.stdout) // `res` is a stream
             // })
 
-
+            const logger = createLogger({
+                storagePath: path.join(cwd, '.progress-estimator'),
+                // https://github.com/sindresorhus/cli-spinners/blob/HEAD/spinners.json 自定义spinner
+                spinner: {
+                    "interval": 80,
+                    "frames": [
+                        "[    ]",
+                        "[=   ]",
+                        "[==  ]",
+                        "[=== ]",
+                        "[====]",
+                        "[ ===]",
+                        "[  ==]",
+                        "[   =]",
+                        "[    ]",
+                        "[   =]",
+                        "[  ==]",
+                        "[ ===]",
+                        "[====]",
+                        "[=== ]",
+                        "[==  ]",
+                        "[=   ]"
+                    ]
+                },
+            });
             const options = {
-                baseDir: process.cwd(),
+                baseDir: cwd,
                 binary: 'git',
                 maxConcurrentProcesses: 6,
                 trimmed: false,
-             };
-             
-             // when setting all options in a single object
-             const git = simpleGit(options);
-             try {
+            };
+
+            // when setting all options in a single object
+            const git = simpleGit(options);
+            try {
                 console.log(1, process.cwd())
-                // process.cwd() bin目录同级，git clone 的参数2也是相对该目录
-                await git.clone(remote, './test1/');
-                console.log(2)
-             } catch (e) {
+                const targetDir = path.join(cwd, './test/')
+
+                if (!isFolderExists(targetDir) || isDirectoryEmpty(targetDir)) {
+                    // process.cwd() bin目录同级，git clone 的参数2也是相对该目录
+                    await logger(git.clone(remote, targetDir), '拼命加载中，不要慌...')
+                    console.log(2)
+                } else {
+                    console.log('当前目录不为空')
+                }
+            } catch (e) {
                 /* handle all errors here */
                 console.log('djch e', e)
-             }
+            }
 
         })
         .catch((err) => console.log('djch err', err))
