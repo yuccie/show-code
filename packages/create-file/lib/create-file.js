@@ -2,8 +2,6 @@
 import inquirer from 'inquirer'
 import fs from 'fs'
 import path from 'path'
-// const fs = require('fs')
-// const path = require('path')
 
 // 定义问题数组
 const questions = [
@@ -34,15 +32,15 @@ const questions = [
 ];
 
 const handleAnswers = (answers) => {
-    // const pwd = process.cwd()
-    fs.readdir(__dirname, (err, files) => {
+    const pwd = process.cwd()
+    fs.readdir(pwd, (err, files) => {
         if (err) {
             console.error('无法读取目录:', err);
             return;
         }
 
         const fileNames = files.filter(file => {
-            const filePath = path.join(__dirname, file);
+            const filePath = path.join(pwd, file);
             return fs.statSync(filePath).isFile() && /^\d+_.+\.md$/.test(file)
         })
 
@@ -51,7 +49,7 @@ const handleAnswers = (answers) => {
         const { title, tags, summary } = answers
 
         const newFileName = `${lastFileIndex}_${title}.md`
-        const absoultePath = path.join(__dirname, newFileName)
+        const absoultePath = path.join(pwd, newFileName)
         const fileContent = `
             ---
             title: ${title}
