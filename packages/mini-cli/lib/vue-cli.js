@@ -1,5 +1,4 @@
 import inquirer from 'inquirer'
-// import simpleGet from 'simple-get'
 import { simpleGit } from 'simple-git';
 import createLogger from 'progress-estimator'
 import path from 'path'
@@ -33,16 +32,7 @@ export default function handleVueTemplate() {
         .then(async (answsers) => {
             // console.log('djch answsers', answsers)
             const remote = 'https://github.com/bencodezen/vue-enterprise-boilerplate.git';
-            // console.log('djch ', Object.keys(simpleGet), simpleGet.get.toString())
-            // https://github.com/bencodezen/vue-enterprise-boilerplate.git
-            // simpleGet.get(remote, function (err, res) {
-            //     if (err) {
-            //         console.error(err)
-            //         throw err
-            //     }
-            //     // console.log('ddd', res) // 200
-            //     // res.pipe(process.stdout) // `res` is a stream
-            // })
+
 
             const logger = createLogger({
                 storagePath: path.join(cwd, '.progress-estimator'),
@@ -79,9 +69,8 @@ export default function handleVueTemplate() {
             // when setting all options in a single object
             const git = simpleGit(options);
             try {
-                console.log(1, process.cwd())
+                // console.log(1, process.cwd())
                 const targetDir = path.join(cwd, './test/')
-
                 if (!isFolderExists(targetDir) || isDirectoryEmpty(targetDir)) {
                     // process.cwd() bin目录同级，git clone 的参数2也是相对该目录
                     await logger(git.clone(remote, targetDir), '拼命加载中，不要慌...')

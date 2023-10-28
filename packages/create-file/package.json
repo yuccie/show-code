@@ -1,0 +1,36 @@
+{
+  "name": "create-file",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "初始化元数据的小脚本",
+  "author": "dujichong",
+  "homepage": "https://github.com/yuccie/show-code#readme",
+  "license": "ISC",
+  "main": "lib/create-file.js",
+  "bin": {
+    "create": "lib/create-file.js"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmmirror.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuccie/show-code.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/yuccie/show-code/issues"
+  },
+  "dependencies": {
+    "inquirer": "^9.2.11"
+  }
+}
